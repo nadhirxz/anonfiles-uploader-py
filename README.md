@@ -10,3 +10,6 @@ pip install -r requirements.txt
 ```
 python3 upload.py <path/to/file>
 ```
+
+## Options
+After upload is complete, the uploaded file url will be copied to clipboard. To disable this, use `-nc` or `--no-copy` flag.

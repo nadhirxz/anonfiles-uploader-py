@@ -6,7 +6,7 @@ from termcolor import colored
 import pyperclip
 
 PROGRESSBAR_LABEL = 'uploading'
-LINK_LABEL = 'link'
+LINK_LABEL = 'url'
 ERROR_LABEL = 'error'
 URL = 'https://api.anonfiles.com/upload'
 
@@ -40,8 +40,8 @@ else:
 
 		print(output)
 
-		if (success):
+		if (success and (len(sys.argv) < 3 or (sys.argv[2] != '-nc' and sys.argv[2] != '--no-copy'))):
 			pyperclip.copy(response['data']['file']['url']['short'])
-			print('link copied to clipboard!')
+			print('url copied to clipboard!')
 	else:
 		print(colored(f'{filename} doesn\'t exist', 'yellow'))
