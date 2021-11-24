@@ -2,6 +2,7 @@ import sys, requests, json
 from os.path import isfile
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 from tqdm import tqdm
+from termcolor import colored
 
 PROGRESSBAR_LABEL = 'uploading'
 LINK_LABEL = 'link'
@@ -19,7 +20,7 @@ def get_fields(filename):
 
 
 if (len(sys.argv) < 2):
-	print('please specify a file to upload')
+	print(colored('please specify a file to upload', 'yellow'))
 else:
 	filename = sys.argv[1]
 	if (isfile(filename)):
@@ -33,7 +34,7 @@ else:
 		tqdm_handler.close()
 
 		response = json.loads(r.text)
-		output = f"{LINK_LABEL}: {response['data']['file']['url']['short']}" if response['status'] else f"{ERROR_LABEL}: {response['error']['message']}"
+		output = f"{LINK_LABEL}: {colored(response['data']['file']['url']['short'], 'green', attrs=['bold'])}" if response['status'] else colored(f"{ERROR_LABEL}: {response['error']['message']}", 'red', attrs=['bold'])
 		print(output)
 	else:
-		print(f'{filename} doesn\'t exist')
+		print(colored(f'{filename} doesn\'t exist', 'yellow'))
