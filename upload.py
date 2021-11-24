@@ -3,6 +3,7 @@ from os.path import isfile
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 from tqdm import tqdm
 from termcolor import colored
+import pyperclip
 
 PROGRESSBAR_LABEL = 'uploading'
 LINK_LABEL = 'link'
@@ -34,7 +35,13 @@ else:
 		tqdm_handler.close()
 
 		response = json.loads(r.text)
-		output = f"{LINK_LABEL}: {colored(response['data']['file']['url']['short'], 'green', attrs=['bold'])}" if response['status'] else colored(f"{ERROR_LABEL}: {response['error']['message']}", 'red', attrs=['bold'])
+		success = response['status']
+		output = f"{LINK_LABEL}: {colored(response['data']['file']['url']['short'], 'green', attrs=['bold'])}" if success else colored(f"{ERROR_LABEL}: {response['error']['message']}", 'red', attrs=['bold'])
+
 		print(output)
+
+		if (success):
+			pyperclip.copy(response['data']['file']['url']['short'])
+			print('link copied to clipboard!')
 	else:
 		print(colored(f'{filename} doesn\'t exist', 'yellow'))
